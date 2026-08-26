@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - Verification Test Script
 """
 from fastapi.testclient import TestClient

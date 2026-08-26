@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - FastAPI Main Application
 """
 import os

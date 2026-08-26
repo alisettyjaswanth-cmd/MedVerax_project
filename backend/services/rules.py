@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - Rule-Based Pattern Matcher
 Detects suspicious medical phrases, absolute cure claims, and dangerous health advice.
 """

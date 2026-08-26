@@ -1,4 +1,4 @@
-﻿// MedVerax AI - Frontend Application Logic
+// MedVerax AI - Frontend Application Logic
 
 // Auto-detect API Base URL
 const API_BASE = (window.location.protocol.startsWith("http")) 

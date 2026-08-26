@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - Text Preprocessor Service
 """
 import re

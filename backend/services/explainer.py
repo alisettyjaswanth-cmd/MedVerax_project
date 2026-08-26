@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - Explainability & Risk Aggregator Service
 """
 from typing import List, Dict, Any

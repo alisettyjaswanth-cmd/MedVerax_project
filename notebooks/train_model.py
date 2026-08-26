@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - Model Training Script
 Trains a TF-IDF + Logistic Regression pipeline for health misinformation detection.
 """

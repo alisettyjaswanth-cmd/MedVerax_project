@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "medverax-ai"
 version = "1.0.0"
 description = "MedVerax AI – Health Misinformation Detection System"

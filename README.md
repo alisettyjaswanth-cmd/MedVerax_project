@@ -1,4 +1,4 @@
-﻿# 🛡️ MedVerax AI – Health Misinformation Detection System
+# 🛡️ MedVerax AI – Health Misinformation Detection System
 
 **MedVerax AI** is an explainable health misinformation detection web platform designed to analyze viral medical claims, evaluate their scientific plausibility, flag deceptive patterns, and provide actionable clinical safety recommendations.
 

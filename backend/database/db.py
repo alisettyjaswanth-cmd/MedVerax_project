@@ -1,4 +1,4 @@
-﻿"""
+"""
 MedVerax AI - SQLite Database Service
 Manages persistence of user queries, analysis outcomes, and timestamps.
 Compatible with local environments and Serverless platforms (Vercel / AWS Lambda).
