@@ -23,6 +23,11 @@ wheels/
 .installed.cfg
 *.egg
 
+# Environment & Secrets
+.env
+.env.*
+*.env
+
 # Database
 backend/database/*.db
 *.sqlite3
@@ -32,3 +37,6 @@ backend/database/*.db
 .idea/
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel/
