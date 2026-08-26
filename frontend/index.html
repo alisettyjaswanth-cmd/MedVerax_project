@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedVerax AI - Health Misinformation Detection System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">MedVerax <span class="accent-text">AI</span></h1>
+                    <p class="brand-subtitle">Health Misinformation Detection System</p>
+                </div>
+            </div>
+            <div class="nav-status">
+                <span class="status-indicator" id="api-status-dot"></span>
+                <span id="api-status-text">Connecting to API...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="badge-pill">
+                <i class="fa-solid fa-brain"></i> Powered by TF-IDF, Logistic Regression & Rule-Based AI
+            </div>
+            <h2>Verify Medical Claims Before You Trust Them</h2>
+            <p class="hero-desc">
+                Analyze health posts from WhatsApp, Instagram, or YouTube. MedVerax AI evaluates claim structure, detects deceptive patterns, and provides actionable safety recommendations.
+            </p>
+        </section>
+
+        <!-- Input & Analysis Section -->
+        <div class="grid-layout">
+            
+            <!-- Left Column: Input Form -->
+            <div class="card input-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-magnifying-glass-chart"></i> Enter Health Claim</h3>
+                </div>
+                <div class="card-body">
+                    <label for="claim-input" class="input-label">Paste or type the health message / claim:</label>
+                    <textarea 
+                        id="claim-input" 
+                        class="claim-textarea" 
+                        rows="5" 
+                        placeholder="e.g., 'Drinking boiled garlic water cures COVID-19 immediately with no doctor needed.'"
+                    ></textarea>
+                    
+                    <!-- Quick Example Buttons -->
+                    <div class="examples-container">
+                        <span class="examples-title"><i class="fa-regular fa-lightbulb"></i> Try sample claims:</span>
+                        <div class="example-tags">
+                            <button class="tag-btn danger-tag" onclick="setExample('This herbal tea guarantees a 100% cure for cancer in 2 weeks with no doctor needed.')">
+                                🚨 Fake Cure
+                            </button>
+                            <button class="tag-btn warning-tag" onclick="setExample('Drinking alkaline water with pH 9.5 prevents all bodily diseases.')">
+                                ⚠️ Alkaline Water
+                            </button>
+                            <button class="tag-btn success-tag" onclick="setExample('Regular physical activity and a balanced diet help reduce cardiovascular disease risk.')">
+                                ✅ Verified Health Advice
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button id="analyze-btn" class="primary-btn" onclick="analyzeClaim()">
+                        <span id="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Claim</span>
+                        <span id="btn-spinner" class="spinner hidden"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Results Display -->
+            <div class="card result-card" id="result-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Analysis Assessment</h3>
+                    <span id="risk-badge" class="risk-badge badge-pending">Awaiting Input</span>
+                </div>
+                
+                <div class="card-body" id="result-body">
+                    <!-- Default Placeholder View -->
+                    <div class="placeholder-state" id="placeholder-state">
+                        <i class="fa-solid fa-stethoscope placeholder-icon"></i>
+                        <p>Enter a health claim on the left and click <strong>Analyze Claim</strong> to see real-time risk scores and clinical explainability.</p>
+                    </div>
+
+                    <!-- Populated Results (Hidden initially) -->
+                    <div id="active-results" class="hidden">
+                        
+                        <!-- Metric Summary Bar -->
+                        <div class="metrics-row">
+                            <div class="metric-box">
+                                <span class="metric-label">Classification</span>
+                                <span class="metric-value" id="prediction-val">-</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Confidence Score</span>
+                                <span class="metric-value" id="confidence-val">0%</span>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" id="confidence-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detected Suspicious Patterns -->
+                        <div class="result-block" id="patterns-block">
+                            <h4 class="block-title"><i class="fa-solid fa-triangle-exclamation"></i> Detected Patterns & Flags</h4>
+                            <div id="patterns-list" class="patterns-wrapper"></div>
+                        </div>
+
+                        <!-- Explainability Section -->
+                        <div class="result-block">
+                            <h4 class="block-title"><i class="fa-solid fa-circle-info"></i> Why this was flagged</h4>
+                            <div class="explanation-box" id="explanation-text"></div>
+                        </div>
+
+                        <!-- Safety Recommendations -->
+                        <div class="result-block">
+                            <h4 class="block-title"><i class="fa-solid fa-user-doctor"></i> Safety Recommendation</h4>
+                            <div class="recommendation-box" id="recommendation-text"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- History Section -->
+        <section class="card history-card">
+            <div class="card-header space-between">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Previous Analyses History (SQLite)</h3>
+                <button class="secondary-btn" onclick="clearAllHistory()">
+                    <i class="fa-solid fa-trash-can"></i> Clear History
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Claim</th>
+                                <th>Risk Level</th>
+                                <th>Confidence</th>
+                                <th>Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="5" class="text-center">No previous analyses recorded yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Medical Disclaimer Footer Banner -->
+        <footer class="disclaimer-banner">
+            <div class="disclaimer-content">
+                <i class="fa-solid fa-hand-holding-medical disclaimer-icon"></i>
+                <div>
+                    <strong>Medical Disclaimer:</strong>
+                    <p id="footer-disclaimer">This system is for information and awareness only. It does not provide medical diagnosis or replace a qualified healthcare professional.</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
