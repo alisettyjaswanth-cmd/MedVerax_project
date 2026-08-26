@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any
 
@@ -41,7 +42,7 @@ async def lifespan(app: FastAPI):
     load_artifacts()
     yield
 
-# Initial direct load for test clients / immediate execution
+# Initial direct load for immediate execution / serverless warm-up
 load_artifacts()
 
 # Initialize FastAPI App
@@ -143,7 +144,15 @@ def reset_history():
     clear_history()
     return {"message": "Analysis history cleared successfully."}
 
-# Mount frontend directory for direct browser serving
+# Locate and serve frontend
 frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend"))
+
+@app.get("/", include_in_schema=False)
+def serve_index():
+    index_file = os.path.join(frontend_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"message": "MedVerax AI API is running. Visit /docs for API documentation."}
+
 if os.path.exists(frontend_dir):
     app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")

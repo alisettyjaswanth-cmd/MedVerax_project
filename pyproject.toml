@@ -4,4 +4,4 @@ version = "1.0.0"
 description = "MedVerax AI – Health Misinformation Detection System"
 
 [tool.vercel]
-entrypoint = "backend/main.py"
+entrypoint = "api/index.py"
